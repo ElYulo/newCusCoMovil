@@ -1,4 +1,6 @@
-import 'package:cuscomovil/src/models/cusco_model.dart';
+//import 'package:cuscomovil/src/models/cusco_model.dart';
+//import 'package:cuscomovil/src/models/cusco_model_datos.dart';
+import 'package:cuscomovil/src/providers/cuscoDatos_state.dart';
 import 'package:cuscomovil/src/providers/cusco_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,14 +15,13 @@ class InicioPageState extends State<InicioPage> {
   void initState() {
     final cuscoState = Get.put(CuscoState());
     cuscoState.obtenerDatos();
+    final cuscoStateDatos = Get.put(CuscoStateDatos());
+    cuscoStateDatos.obtenerDatos();
     super.initState();
   }
 
   Widget build(BuildContext context) {
     return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
-      final _limite = cuscoState.datos[1];
-      final _sensor = cuscoState.datos;
-
       return Scaffold(
         body: ListView(
           children: [
@@ -31,7 +32,7 @@ class InicioPageState extends State<InicioPage> {
             SizedBox(
               height: 10.0,
             ),
-            _Clientes(_sensor),
+            _Clientes(),
             SizedBox(
               height: 10.0,
             ),
@@ -60,20 +61,20 @@ class InicioPageState extends State<InicioPage> {
 }
 
 class _Clientes extends StatelessWidget {
-  List<CuscoModel> dato;
-  _Clientes(this.dato);
+  //List<CuscoModel> datos;
+  //_Clientes(this.datos);
   @override
   Widget build(BuildContext context) {
     //Funcion FOR para contabilizar a las personas
-    final datos = dato[1];
-    int j = 0;
-    for (var i = 0; i < datos.sensor!.length; i++) {
-      if (datos.sensor == "entrando") {
-        j++;
-      } else if (datos.sensor == "Salida") {
-        j--;
-      }
-    }
+    //final datos = datos[1];
+    //int j = 0;
+    //for (var i = 0; i < datos.sensor!.length; i++) {
+    //  if (datos.sensor == "entrando") {
+    //    j++;
+    //  } else if (datos.sensor == "Salida") {
+    //    j--;
+    //  }
+    //}
     return Column(
       children: [
         Text("Clientes actuales:",
@@ -100,7 +101,7 @@ class _Clientes extends StatelessWidget {
                                 color: Color.fromARGB(255, 59, 147, 73))),
                         Text(
                           //Conversion del FOR a String para mostrar en pantalla
-                          j.toString(),
+                          "20",
                           style: TextStyle(
                               fontSize: 90,
                               color: Color.fromARGB(255, 59, 147, 73)),
@@ -126,7 +127,7 @@ class _Clientes extends StatelessWidget {
                                 fontSize: 35,
                                 color: Color.fromARGB(255, 207, 25, 42))),
                         //Mostrar limite de personas y transformado a String para mostrar en pantalla
-                        Text(datos.limite!,
+                        Text("20",
                             style: TextStyle(
                                 fontSize: 90,
                                 color: Color.fromARGB(255, 207, 25, 42))),

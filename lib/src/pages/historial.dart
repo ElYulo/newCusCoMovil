@@ -36,19 +36,13 @@ class HistorialPageState extends State<HistorialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Flexible(
+        child: Expanded(
           child: Column(
             children: <Widget>[
-              Center(
-                child: Text("Historial",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
-              ),
-              Expanded(
-                child: _Tabla(_scrollController),
-              ),
+              Text("Historial",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
+              _Tabla(),
               _Filtro(),
-              _BotonesHistorial()
             ],
           ),
         ),
@@ -58,6 +52,7 @@ class HistorialPageState extends State<HistorialPage> {
 }
 
 class _Tabla extends StatelessWidget {
+  final cuscoProvider = Get.find<CuscoState>();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -82,45 +77,34 @@ class _Tabla extends StatelessWidget {
     return Color.fromARGB(255, 220, 229, 249);
   }
 
-  final ScrollController _scrollController;
-  _Tabla(this._scrollController);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
-      return GridView.builder(
-        controller: _scrollController,
-        itemCount: cuscoState.datos.length,
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-        itemBuilder: (BuildContext context, int i) {
-          final _datos = cuscoState.datos[i];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Container(
-                height: 450,
-                child: ListView(
-                  children: [
-                    DataTable(
-                        headingRowColor:
-                            MaterialStateProperty.resolveWith(getColor),
-                        dataRowColor:
-                            MaterialStateProperty.resolveWith(getColor2),
-                        columns: [
-                          DataColumn(label: Text("Estado")),
-                          DataColumn(label: Text("Fecha")),
-                          DataColumn(label: Text("Hora"))
-                        ],
-                        rows: [
-                          DataRow(cells: [
-                            DataCell(Text(_datos.sensor!)),
-                            DataCell(Text(_datos.fecha!)),
-                            DataCell(Text(_datos.hora!)),
-                          ]),
-                        ]),
+      return Card(
+        margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+        child: Container(
+          height: 450,
+          child: SingleChildScrollView(
+            child: DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith(getColor),
+              dataRowColor: MaterialStateProperty.resolveWith(getColor2),
+              columns: [
+                DataColumn(label: Text("Estado")),
+                DataColumn(label: Text("Fecha")),
+                DataColumn(label: Text("Hora"))
+              ],
+              rows: cuscoProvider.datos.map((_datos) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text(_datos.sensor!)),
+                    DataCell(Text(_datos.fecha!)),
+                    DataCell(Text(_datos.hora!)),
                   ],
-                )),
-          );
-        },
+                );
+              }).toList(),
+            ),
+          ),
+        ),
       );
     });
   }
@@ -135,6 +119,7 @@ class _Filtro extends StatelessWidget {
         children: [
           Text("Filtrar por:",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+          _BotonesHistorial(),
         ],
       ),
     );

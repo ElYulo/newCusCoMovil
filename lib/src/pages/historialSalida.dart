@@ -35,64 +35,41 @@ class HistorialPageState extends State<HistorialPageSalida> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 182, 200, 236),
+        centerTitle: true,
+        title: Text(
+          "CusCO",
+          style: TextStyle(color: Color.fromARGB(255, 19, 57, 121)),
+        ),
+        actions: [
+          Image.asset(
+            'assets/cusco.png',
+            scale: 30.0,
+          ),
           SizedBox(
-            height: 10.0,
-          ),
-          Center(
-            child: Text("Historial",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
-          ),
-          _Tabla(_scrollController),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Row(
-              children: [
-                Text("Filtrar por:",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton.extended(
-                    backgroundColor: Color.fromARGB(255, 159, 211, 170),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HistorialPageEntrada()));
-                    },
-                    label: Text("  Entrada  ",
-                        style: TextStyle(fontSize: 20, color: Colors.black))),
-                SizedBox(width: 12),
-                FloatingActionButton.extended(
-                    backgroundColor: Color.fromARGB(255, 247, 143, 142),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HistorialPage()));
-                    },
-                    label: Text("   Historial   ",
-                        style: TextStyle(fontSize: 20, color: Colors.black))),
-              ],
-            ),
+            width: 15.0,
           )
         ],
+      ),
+      body: Center(
+        child: Expanded(
+          child: Column(
+            children: <Widget>[
+              Text("Historial",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
+              _Tabla(),
+              //_Filtro(),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 class _Tabla extends StatelessWidget {
+  final cuscoProvider = Get.find<CuscoState>();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -117,46 +94,87 @@ class _Tabla extends StatelessWidget {
     return Color.fromARGB(255, 220, 229, 249);
   }
 
-  final ScrollController _scrollController;
-  _Tabla(this._scrollController);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
-      return GridView.builder(
-        controller: _scrollController,
-        itemCount: cuscoState.datos.length,
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-        itemBuilder: (BuildContext context, int i) {
-          final _datos = cuscoState.datos[i];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Container(
-                height: 450,
-                child: ListView(
-                  children: [
-                    DataTable(
-                        headingRowColor:
-                            MaterialStateProperty.resolveWith(getColor),
-                        dataRowColor:
-                            MaterialStateProperty.resolveWith(getColor2),
-                        columns: [
-                          DataColumn(label: Text("Estado")),
-                          DataColumn(label: Text("Fecha")),
-                          DataColumn(label: Text("Hora"))
-                        ],
-                        rows: [
-                          DataRow(cells: [
-                            DataCell(Text(_datos.sensor!)),
-                            DataCell(Text(_datos.fecha!)),
-                            DataCell(Text(_datos.hora!)),
-                          ]),
-                        ]),
+      return Card(
+        margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+        child: Container(
+          height: 450,
+          child: SingleChildScrollView(
+            child: DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith(getColor),
+              dataRowColor: MaterialStateProperty.resolveWith(getColor2),
+              columns: [
+                DataColumn(label: Text("Estado")),
+                DataColumn(label: Text("Fecha")),
+                DataColumn(label: Text("Hora"))
+              ],
+              rows: cuscoProvider.datos.map((_datos) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text(_datos.sensor!)),
+                    DataCell(Text(_datos.fecha!)),
+                    DataCell(Text(_datos.hora!)),
                   ],
-                )),
-          );
-        },
+                );
+              }).toList(),
+            ),
+          ),
+        ),
       );
     });
+  }
+}
+
+class _Filtro extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+      child: Row(
+        children: [
+          Text("Filtrar por:",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+          _BotonesHistorial(),
+        ],
+      ),
+    );
+  }
+}
+
+class _BotonesHistorial extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton.extended(
+              backgroundColor: Color.fromARGB(255, 159, 211, 170),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            HistorialPageEntrada()));
+              },
+              label: Text("  Entrada  ",
+                  style: TextStyle(fontSize: 20, color: Colors.black))),
+          SizedBox(width: 12),
+          FloatingActionButton.extended(
+              backgroundColor: Color.fromARGB(255, 247, 143, 142),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => HistorialPage()));
+              },
+              label: Text("   Mixto   ",
+                  style: TextStyle(fontSize: 20, color: Colors.black))),
+        ],
+      ),
+    );
   }
 }

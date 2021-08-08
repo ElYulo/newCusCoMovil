@@ -1,6 +1,8 @@
 import 'package:cuscomovil/src/pages/ajustes.dart';
 import 'package:cuscomovil/src/pages/funcionamiento.dart';
 import 'package:cuscomovil/src/pages/historial.dart';
+import 'package:cuscomovil/src/pages/historialEntrada.dart';
+import 'package:cuscomovil/src/pages/historialSalida.dart';
 import 'package:cuscomovil/src/pages/home.dart';
 import 'package:cuscomovil/src/pages/login.dart';
 import 'package:cuscomovil/src/pages/sobre_cusco.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         'sobrecusco': (_) => SobreCuscoPage(),
         'ajustes': (_) => AjustesPage(),
         'historial': (_) => HistorialPage(),
+        'historialEntrada': (_) => HistorialPageEntrada(),
+        'historialSalida': (_) => HistorialPageSalida(),
         '/': (_) => HomePage()
       },
     );
