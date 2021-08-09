@@ -36,15 +36,18 @@ class HistorialPageState extends State<HistorialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Expanded(
-          child: Column(
-            children: <Widget>[
-              Text("Historial",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
-              _Tabla(),
-              _Filtro(),
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Historial",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+            ),
+            SizedBox(
+              child: SingleChildScrollView(child: _Tabla()),
+              height: 800.0,
+            ),
+            _Filtro(),
+          ],
         ),
       ),
     );
@@ -82,29 +85,25 @@ class _Tabla extends StatelessWidget {
     return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
       return Card(
         margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-        child: Container(
-          height: 450,
-          child: SingleChildScrollView(
+        child: Center(
             child: DataTable(
-              headingRowColor: MaterialStateProperty.resolveWith(getColor),
-              dataRowColor: MaterialStateProperty.resolveWith(getColor2),
-              columns: [
-                DataColumn(label: Text("Estado")),
-                DataColumn(label: Text("Fecha")),
-                DataColumn(label: Text("Hora"))
+          headingRowColor: MaterialStateProperty.resolveWith(getColor),
+          dataRowColor: MaterialStateProperty.resolveWith(getColor2),
+          columns: [
+            DataColumn(label: Text("Estado")),
+            DataColumn(label: Text("Fecha")),
+            DataColumn(label: Text("Hora"))
+          ],
+          rows: cuscoProvider.datos.map((_datos) {
+            return DataRow(
+              cells: [
+                DataCell(Text(_datos.sensor!)),
+                DataCell(Text(_datos.fecha!)),
+                DataCell(Text(_datos.hora!)),
               ],
-              rows: cuscoProvider.datos.map((_datos) {
-                return DataRow(
-                  cells: [
-                    DataCell(Text(_datos.sensor!)),
-                    DataCell(Text(_datos.fecha!)),
-                    DataCell(Text(_datos.hora!)),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-        ),
+            );
+          }).toList(),
+        )),
       );
     });
   }

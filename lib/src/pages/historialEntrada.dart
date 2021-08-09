@@ -13,6 +13,7 @@ class HistorialPageState extends State<HistorialPageEntrada> {
   void initState() {
     final cuscoState = Get.put(CuscoState());
     cuscoState.obtenerDatos();
+    cuscoState.obtenerDatosEntrada();
     _scrollController.addListener(() async {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 100) {
@@ -51,15 +52,17 @@ class HistorialPageState extends State<HistorialPageEntrada> {
         ],
       ),
       body: Center(
-        child: Expanded(
-          child: Column(
-            children: <Widget>[
-              Text("Historial",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
-              _Tabla(),
-              //_Filtro(),
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Historial de entradas",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+            ),
+            SizedBox(
+              child: SingleChildScrollView(child: _Tabla()),
+              height: 800.0,
+            ),
+          ],
         ),
       ),
     );
@@ -97,81 +100,26 @@ class _Tabla extends StatelessWidget {
     return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
       return Card(
         margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-        child: Container(
-          height: 450,
-          child: SingleChildScrollView(
+        child: Center(
             child: DataTable(
-              headingRowColor: MaterialStateProperty.resolveWith(getColor),
-              dataRowColor: MaterialStateProperty.resolveWith(getColor2),
-              columns: [
-                DataColumn(label: Text("Estado")),
-                DataColumn(label: Text("Fecha")),
-                DataColumn(label: Text("Hora"))
+          headingRowColor: MaterialStateProperty.resolveWith(getColor),
+          dataRowColor: MaterialStateProperty.resolveWith(getColor2),
+          columns: [
+            DataColumn(label: Text("Estado")),
+            DataColumn(label: Text("Fecha")),
+            DataColumn(label: Text("Hora"))
+          ],
+          rows: cuscoProvider.datosEntradas.map((_datos) {
+            return DataRow(
+              cells: [
+                DataCell(Text(_datos.sensor!)),
+                DataCell(Text(_datos.fecha!)),
+                DataCell(Text(_datos.hora!)),
               ],
-              rows: cuscoProvider.datos.map((_datos) {
-                dynamic entrada;
-                dynamic fecha;
-                dynamic hora;
-                if (_datos.sensor == 'entrando') {
-                  print(_datos.sensor);
-
-                  entrada = DataCell(Text(_datos.sensor!));
-                  fecha = DataCell(Text(_datos.fecha!));
-                  hora = DataCell(Text(_datos.hora!));
-                }
-                return DataRow(
-                  cells: [entrada, fecha, hora],
-                );
-              }).toList(),
-            ),
-          ),
-        ),
+            );
+          }).toList(),
+        )),
       );
     });
-  }
-}
-
-class _Filtro extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      child: Row(
-        children: [
-          Text("Filtrar por:",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-          _BotonesHistorial(),
-        ],
-      ),
-    );
-  }
-}
-
-class _BotonesHistorial extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton.extended(
-              backgroundColor: Color.fromARGB(255, 159, 211, 170),
-              onPressed: () {
-                Navigator.pushNamed(context, 'historialEntrada');
-              },
-              label: Text("  Mixto  ",
-                  style: TextStyle(fontSize: 20, color: Colors.black))),
-          SizedBox(width: 12),
-          FloatingActionButton.extended(
-              backgroundColor: Color.fromARGB(255, 247, 143, 142),
-              onPressed: () {
-                Navigator.pushNamed(context, 'historialSalida');
-              },
-              label: Text("   Salida   ",
-                  style: TextStyle(fontSize: 20, color: Colors.black))),
-        ],
-      ),
-    );
   }
 }
