@@ -1,5 +1,5 @@
-//import 'package:cuscomovil/src/models/cusco_model.dart';
-//import 'package:cuscomovil/src/models/cusco_model_datos.dart';
+import 'package:cuscomovil/src/models/contador_model.dart';
+import 'package:cuscomovil/src/providers/contador_state.dart';
 import 'package:cuscomovil/src/providers/cuscoDatos_state.dart';
 import 'package:cuscomovil/src/providers/cusco_state.dart';
 import 'package:flutter/material.dart';
@@ -20,27 +20,28 @@ class InicioPageState extends State<InicioPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<CuscoState>(builder: (CuscoState cuscoState) {
-      return Scaffold(
-        body: ListView(
-          children: [
-            SizedBox(
-              height: 10.0,
-            ),
-            _titulo(),
-            SizedBox(
-              height: 10.0,
-            ),
-            _Clientes(),
-            SizedBox(
-              height: 10.0,
-            ),
-            _Grafica()
-          ],
-        ),
-      );
-    });
+    final contadorState = Get.put(ContadorState());
+    contadorState.obtenerDatos();
+    return Scaffold(
+      body: ListView(
+        children: [
+          SizedBox(
+            height: 10.0,
+          ),
+          _titulo(),
+          SizedBox(
+            height: 10.0,
+          ),
+          _Clientes(contadorState.contador[0].contador),
+          SizedBox(
+            height: 10.0,
+          ),
+          _Grafica()
+        ],
+      ),
+    );
   }
 
   Widget _titulo() {
@@ -61,89 +62,83 @@ class InicioPageState extends State<InicioPage> {
 }
 
 class _Clientes extends StatelessWidget {
-  //List<CuscoModel> datos;
-  //_Clientes(this.datos);
+  String? _contador;
+  _Clientes(this._contador);
   @override
   Widget build(BuildContext context) {
-    //Funcion FOR para contabilizar a las personas
-    //final datos = datos[1];
-    //int j = 0;
-    //for (var i = 0; i < datos.sensor!.length; i++) {
-    //  if (datos.sensor == "entrando") {
-    //    j++;
-    //  } else if (datos.sensor == "Salida") {
-    //    j--;
-    //  }
-    //}
-    return Column(
-      children: [
-        Text("Clientes actuales:",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              color: Color.fromARGB(255, 159, 211, 170),
-              margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 45),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text("Actual",
-                            style: TextStyle(
-                                fontSize: 35,
-                                color: Color.fromARGB(255, 59, 147, 73))),
-                        Text(
-                          //Conversion del FOR a String para mostrar en pantalla
-                          "20",
-                          style: TextStyle(
-                              fontSize: 90,
-                              color: Color.fromARGB(255, 59, 147, 73)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 45),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text("Limite",
-                            style: TextStyle(
-                                fontSize: 35,
-                                color: Color.fromARGB(255, 207, 25, 42))),
-                        //Mostrar limite de personas y transformado a String para mostrar en pantalla
-                        Text("20",
+    return GetBuilder<CuscoStateDatos>(
+        builder: (CuscoStateDatos cuscoStateDatos) {
+      final _datos = cuscoStateDatos.datos[0];
+      print(_contador);
+      return Column(
+        children: [
+          Text("Clientes actuales:",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                color: Color.fromARGB(255, 159, 211, 170),
+                margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 45),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text("Actual",
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  color: Color.fromARGB(255, 59, 147, 73))),
+                          Text(
+                            _contador!,
                             style: TextStyle(
                                 fontSize: 90,
-                                color: Color.fromARGB(255, 207, 25, 42))),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
+                                color: Color.fromARGB(255, 59, 147, 73)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 25,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 45),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text("Limite",
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  color: Color.fromARGB(255, 207, 25, 42))),
+                          //Mostrar limite de personas y transformado a String para mostrar en pantalla
+                          Text(_datos.limite!.toString(),
+                              style: TextStyle(
+                                  fontSize: 90,
+                                  color: Color.fromARGB(255, 207, 25, 42))),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        )
-      ],
-    );
+            ],
+          )
+        ],
+      );
+    });
   }
 }
 

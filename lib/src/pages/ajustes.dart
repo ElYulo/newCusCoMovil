@@ -1,10 +1,19 @@
+import 'package:cuscomovil/src/providers/cuscoDatos_state.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AjustesPage extends StatefulWidget {
   AjustesPageState createState() => AjustesPageState();
 }
 
 class AjustesPageState extends State<AjustesPage> {
+  @override
+  void initState() {
+    final cuscoStateDatos = Get.put(CuscoStateDatos());
+    cuscoStateDatos.obtenerDatos();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,90 +113,95 @@ class AjustesPageState extends State<AjustesPage> {
 class _Ajustes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Color.fromARGB(255, 220, 229, 246),
-      margin: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-        child: Column(
-          children: [
-            Text("Modificar el limite de las personas:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-            SizedBox(
-              height: 10.0,
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          color: Color.fromARGB(255, 247, 143, 142),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "30",
-                                style: TextStyle(fontSize: 40),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text("Actual",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 247, 143, 142)))
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          color: Color.fromARGB(255, 159, 211, 170),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextField(
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                style: TextStyle(
-                                  fontSize: 40,
+    return GetBuilder<CuscoStateDatos>(
+        builder: (CuscoStateDatos cuscoStateDatos) {
+      final _datos = cuscoStateDatos.datos[0];
+      print(_datos);
+      return Card(
+        color: Color.fromARGB(255, 220, 229, 246),
+        margin: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          child: Column(
+            children: [
+              Text("Modificar el limite de las personas:",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              SizedBox(
+                height: 10.0,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Color.fromARGB(255, 247, 143, 142),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  _datos.limite!.toString(),
+                                  style: TextStyle(fontSize: 40),
                                 ),
-                                decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 159, 211, 170))),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 159, 211, 170)))),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Text("Nuevo",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 159, 211, 170)))
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
-          ],
+                          Text("Actual",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 247, 143, 142)))
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Color.fromARGB(255, 159, 211, 170),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextField(
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                  ),
+                                  decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 159, 211, 170))),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 159, 211, 170)))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text("Nuevo",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 159, 211, 170)))
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
