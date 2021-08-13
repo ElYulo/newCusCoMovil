@@ -1,7 +1,9 @@
 import 'package:cuscomovil/src/pages/historial.dart';
 import 'package:cuscomovil/src/pages/inicio.dart';
 import 'package:cuscomovil/src/pages/inicio2.dart';
+import 'package:cuscomovil/src/providers/login_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
@@ -14,6 +16,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _loginProvider = Get.find<LoginProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 182, 200, 236),
@@ -76,7 +79,10 @@ class HomePageState extends State<HomePage> {
                 "Cerrar Sesion",
                 style: TextStyle(fontSize: 18),
               ),
-              onTap: () => Navigator.pushNamed(context, 'login'),
+              onTap: () async {
+                await _loginProvider.logout();
+                Navigator.pushReplacementNamed(context, 'login');
+              },
             ),
           ],
         ),

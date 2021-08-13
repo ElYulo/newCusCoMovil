@@ -26,7 +26,7 @@ class LoginProvider extends GetxController {
   }
 
   Future<void> logout() async {
-    if (await _storage.read(key: 'token') == null) {
+    if (await _storage.read(key: 'token') != null) {
       _storage.delete(key: 'token');
     }
   }
