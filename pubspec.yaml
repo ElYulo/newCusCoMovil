@@ -33,6 +33,8 @@ dependencies:
   flip_card:
   pie_chart:
   fl_chart:
+  email_validator:
+  flutter_secure_storage:
 
 dev_dependencies:
   flutter_test:

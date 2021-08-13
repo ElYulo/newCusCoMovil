@@ -1,4 +1,5 @@
 import 'package:cuscomovil/src/pages/ajustes.dart';
+import 'package:cuscomovil/src/pages/check_storage.dart';
 import 'package:cuscomovil/src/pages/funcionamiento.dart';
 import 'package:cuscomovil/src/pages/historial.dart';
 import 'package:cuscomovil/src/pages/historialEntrada.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Century Gothic'),
       title: 'Cusco',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/check',
       routes: {
         'login': (_) => LoginPage(),
         'funcionamiento': (_) => FuncionamientoPage(),
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         'historial': (_) => HistorialPage(),
         'historialEntrada': (_) => HistorialPageEntrada(),
         'historialSalida': (_) => HistorialPageSalida(),
-        '/': (_) => HomePage()
+        '/': (_) => HomePage(),
+        '/check': (_) => CheckStorage(),
       },
     );
   }

@@ -53,8 +53,8 @@ class AjustesPageState extends State<AjustesPage> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           ),
           _Ajustes(),
+          //Boton para actualizar los cambios
           Center(
-            //Boton para actualizar los cambios
             child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 100.0, vertical: 7.0),
                 child: FloatingActionButton.extended(
