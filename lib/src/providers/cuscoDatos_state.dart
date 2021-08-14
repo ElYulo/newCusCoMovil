@@ -8,7 +8,6 @@ class CuscoStateDatos extends GetxController {
 
   Future<void> obtenerDatos() async {
     datos.addAll(await datoState.obtenerDatos());
-
     update();
   }
 }

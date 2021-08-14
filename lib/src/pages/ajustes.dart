@@ -7,6 +7,7 @@ class AjustesPage extends StatefulWidget {
 }
 
 class AjustesPageState extends State<AjustesPage> {
+  final _cuscoProvider = Get.find<CuscoStateDatos>();
   @override
   void initState() {
     final cuscoStateDatos = Get.put(CuscoStateDatos());
