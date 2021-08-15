@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class LoginProvider extends GetxController {
   final _http = Dio();
   //despues del / va la url del token, ej del profe = 'oauth/token'
-  final _url = 'https://cuscoapi.herokuapp.com/api/datos/';
+  final _url = 'https://cuscoapi.herokuapp.com/api/password/';
   late LoginModel usuario;
   final _storage = FlutterSecureStorage();
   final key = GlobalKey<FormState>();

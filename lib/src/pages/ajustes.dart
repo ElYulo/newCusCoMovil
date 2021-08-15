@@ -1,4 +1,5 @@
 import 'package:cuscomovil/src/providers/cuscoDatos_state.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,7 @@ class AjustesPageState extends State<AjustesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cuscoProvider = CuscoStateDatos();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 182, 200, 236),
@@ -35,56 +37,62 @@ class AjustesPageState extends State<AjustesPage> {
           )
         ],
       ),
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 20.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _titulo(),
-            ],
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Center(
-            child: Text("Bienvenido a la seleccion de ajustes",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          ),
-          _Ajustes(),
-          //Boton para actualizar los cambios
-          Center(
-            child: Container(
+      body: Form(
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _titulo(),
+              ],
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Center(
+              child: Text("Bienvenido a la seleccion de ajustes",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            ),
+            _Ajustes(),
+            //Boton para actualizar los cambios
+            Center(
+              child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 100.0, vertical: 7.0),
                 child: FloatingActionButton.extended(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await cuscoProvider.editarLimite();
+                  },
                   label: Text(
                     "Actualizar cambios",
                     style: TextStyle(color: Colors.black),
                   ),
                   backgroundColor: Color.fromARGB(255, 159, 211, 170),
-                )),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Text(
-              "Gracias por ser parte de Cusco",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+              ),
             ),
-          ),
-          Center(
-            child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0),
-                child: Image.asset(
-                  'assets/feliz.png',
-                  scale: 1,
-                )),
-          )
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                "Gracias por ser parte de Cusco",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            Center(
+              child: Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0),
+                  child: Image.asset(
+                    'assets/feliz.png',
+                    scale: 1,
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
