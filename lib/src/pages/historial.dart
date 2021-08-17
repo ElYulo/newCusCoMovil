@@ -1,5 +1,3 @@
-import 'package:cuscomovil/src/pages/historialEntrada.dart';
-import 'package:cuscomovil/src/pages/historialSalida.dart';
 import 'package:cuscomovil/src/providers/cusco_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,11 +134,7 @@ class _BotonesHistorial extends StatelessWidget {
           FloatingActionButton.extended(
               backgroundColor: Color.fromARGB(255, 159, 211, 170),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            HistorialPageEntrada()));
+                Navigator.pushNamed(context, 'historialEntrada');
               },
               label: Text("  Entrada  ",
                   style: TextStyle(fontSize: 20, color: Colors.black))),
@@ -148,11 +142,7 @@ class _BotonesHistorial extends StatelessWidget {
           FloatingActionButton.extended(
               backgroundColor: Color.fromARGB(255, 247, 143, 142),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            HistorialPageSalida()));
+                Navigator.pushNamed(context, 'historialSalida');
               },
               label: Text("   Salida   ",
                   style: TextStyle(fontSize: 20, color: Colors.black))),

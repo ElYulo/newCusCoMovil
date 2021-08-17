@@ -14,13 +14,11 @@ class LoginProvider extends GetxController {
 
   Future<String?> login() async {
     final _response = await _http.post(_url, data: usuario.toJsonLogin());
-    //
     final _data = _response.data['access_token'];
     if (_response.statusCode == 200) {
       _storage.write(key: 'token', value: _data);
       return null;
     } else {
-      //
       return _response.data['error_description'];
     }
   }

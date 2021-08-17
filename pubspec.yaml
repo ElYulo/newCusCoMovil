@@ -35,6 +35,8 @@ dependencies:
   fl_chart:
   email_validator:
   flutter_secure_storage:
+  intl:
+  jiffy:
 
 dev_dependencies:
   flutter_test:

@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         'historial': (_) => HistorialPage(),
         'historialEntrada': (_) => HistorialPageEntrada(),
         'historialSalida': (_) => HistorialPageSalida(),
-        '/': (_) => HomePage(),
         '/check': (_) => CheckStorage(),
+        '/': (_) => HomePage(),
       },
     );
   }

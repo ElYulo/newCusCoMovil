@@ -1,4 +1,3 @@
-import 'package:cuscomovil/src/models/contador_model.dart';
 import 'package:cuscomovil/src/providers/contador_state.dart';
 import 'package:cuscomovil/src/providers/cuscoDatos_state.dart';
 import 'package:cuscomovil/src/providers/cusco_state.dart';
@@ -164,7 +163,7 @@ class _Grafica extends StatelessWidget {
           String formatterDate = date.format(now);
           for (var i = 0; i < sema.length; i++) {
             if (Jiffy(sema[i].fecha).yMMMMd == Jiffy(formatterDate).yMMMMd &&
-                sema[i].sensor == 'entrando') { 
+                sema[i].sensor == 'entrando') {
               numDias += 1;
             }
           }
